@@ -1,4 +1,73 @@
-import React from "react";
+import React, { useState } from "react";
+
+import { watchlist } from "../data/data";
+import { Tooltip, Grow } from "@mui/material";
+
+import {
+  KeyboardArrowDown,
+  KeyboardArrowUp,
+  TrendingUp,
+  MoreHorizOutlined,
+} from "@mui/icons-material";
+
+const Actions = (index) => (
+  <span className="actions">
+    <span>
+      <Tooltip title="Buy" placement="top" arrow TransitionComponent={Grow}>
+        <button className="buy">Buy</button>
+      </Tooltip>
+      <Tooltip title="Sell" placement="top" arrow TransitionComponent={Grow}>
+        <button className="sell">Sell</button>
+      </Tooltip>
+      <Tooltip
+        title="Analytics"
+        placement="top"
+        arrow
+        TransitionComponent={Grow}
+      >
+        <button className="action">
+          <TrendingUp className="icon" />
+        </button>
+      </Tooltip>
+      <Tooltip title="More" placement="top" arrow TransitionComponent={Grow}>
+        <button className="action">
+          <MoreHorizOutlined className="icon" />
+        </button>
+      </Tooltip>
+    </span>
+  </span>
+);
+
+const WatchItem = ({ details, index }) => {
+  const [showActions, setShowActions] = useState(false);
+
+  return (
+    <li
+      onMouseEnter={() => setShowActions(true)}
+      onMouseExit={() => setShowActions(false)}
+      className="item"
+    >
+      <p className={details.isDown ? "down" : "up"}>{details.name}</p>
+      <div className="itemInfo">
+        <span className={"percent " + details.isDown ? "down" : "up"}>
+          {details.percent}{" "}
+          {details.isDown ? (
+            <KeyboardArrowDown className="down" />
+          ) : (
+            <KeyboardArrowUp className="up" />
+          )}
+        </span>
+        <span
+          style={{ marginLeft: "16px" }}
+          className={"price " + details.isDown ? "down" : "up"}
+        >
+          {details.price}
+        </span>
+      </div>
+      {showActions && <Actions index={index} />}
+    </li>
+  );
+};
 
 const WatchList = () => {
   return (
@@ -11,10 +80,14 @@ const WatchList = () => {
           placeholder="Search eg:infy, bse, nifty fut weekly, gold mcx"
           className="search"
         />
-        <span className="counts"> 9 / 50</span>
+        <span className="counts"> {watchlist.length} / 50</span>
       </div>
 
-      <ul className="list"></ul>
+      <ul className="list">
+        {watchlist.map((item, index) => (
+          <WatchItem key={index} details={item} index={index} />
+        ))}
+      </ul>
     </div>
   );
 };
