@@ -1,8 +1,17 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
-import { holdings } from "../data/data";
+// import { holdings } from "../data/data";
 
 const Holdings = () => {
+  const [holdings, setHoldings] = useState([]);
+
+  useEffect(() => {
+    axios.get("http://localhost:3002/holdings").then((res) => {
+      setHoldings(res.data);
+    });
+  }, []);
+
   const newHoldings = holdings.map((item) => {
     const curVal = item.price * item.qty;
     const isProfit = item.price - item.avg >= 0;
