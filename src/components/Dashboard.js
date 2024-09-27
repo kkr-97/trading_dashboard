@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Route, Routes } from "react-router-dom";
 
 import Apps from "./Apps";
@@ -9,15 +9,35 @@ import Orders from "./Orders";
 import Positions from "./Positions";
 import Summary from "./Summary";
 import WatchList from "./WatchList";
-
-import GeneralContextProvider from "./GeneralContextProvider";
+import BuyWindow from "./BuyWindow";
+import StockContext from "../Contexts/StockContext";
 
 const Dashboard = () => {
+  const [isBuyWindowOpen, setBuyWindowState] = useState(false);
+  const [stockDetails, setStockDetails] = useState({});
+
+  const openBuyWindowOpen = (stock) => {
+    setBuyWindowState(true);
+    setStockDetails(stock);
+  };
+
+  const closeBuyWindow = () => {
+    setBuyWindowState(false);
+    setStockDetails({});
+  };
+
   return (
     <div className="dashboard-container">
-      <GeneralContextProvider>
+      <StockContext.Provider
+        value={{
+          openBuyWindowOpen: openBuyWindowOpen,
+          closeBuyWindow: closeBuyWindow,
+        }}
+      >
         <WatchList />
-      </GeneralContextProvider>
+        {isBuyWindowOpen && <BuyWindow stockDetails={stockDetails} />}
+      </StockContext.Provider>
+
       <div className="content">
         <Routes>
           <Route exact path="/" element={<Summary />} />

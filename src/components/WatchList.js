@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 
 import { watchlist } from "../data/data";
 import { Tooltip, Grow } from "@mui/material";
+
+import StockContext from "../Contexts/StockContext";
 
 import {
   KeyboardArrowDown,
@@ -10,33 +12,43 @@ import {
   MoreHorizOutlined,
 } from "@mui/icons-material";
 
-const Actions = (index) => (
-  <span className="actions">
-    <span>
-      <Tooltip title="Buy" placement="top" arrow TransitionComponent={Grow}>
-        <button className="buy">Buy</button>
-      </Tooltip>
-      <Tooltip title="Sell" placement="top" arrow TransitionComponent={Grow}>
-        <button className="sell">Sell</button>
-      </Tooltip>
-      <Tooltip
-        title="Analytics"
-        placement="top"
-        arrow
-        TransitionComponent={Grow}
-      >
-        <button className="action">
-          <TrendingUp className="icon" />
-        </button>
-      </Tooltip>
-      <Tooltip title="More" placement="top" arrow TransitionComponent={Grow}>
-        <button className="action">
-          <MoreHorizOutlined className="icon" />
-        </button>
-      </Tooltip>
+const Actions = (details) => {
+  const { openBuyWindowOpen } = useContext(StockContext);
+
+  const handleBuy = () => {
+    openBuyWindowOpen(details);
+  };
+
+  return (
+    <span className="actions">
+      <span>
+        <Tooltip title="Buy" placement="top" arrow TransitionComponent={Grow}>
+          <button className="buy" onClick={handleBuy}>
+            Buy
+          </button>
+        </Tooltip>
+        <Tooltip title="Sell" placement="top" arrow TransitionComponent={Grow}>
+          <button className="sell">Sell</button>
+        </Tooltip>
+        <Tooltip
+          title="Analytics"
+          placement="top"
+          arrow
+          TransitionComponent={Grow}
+        >
+          <button className="action">
+            <TrendingUp className="icon" />
+          </button>
+        </Tooltip>
+        <Tooltip title="More" placement="top" arrow TransitionComponent={Grow}>
+          <button className="action">
+            <MoreHorizOutlined className="icon" />
+          </button>
+        </Tooltip>
+      </span>
     </span>
-  </span>
-);
+  );
+};
 
 const WatchItem = ({ details, index }) => {
   const [showActions, setShowActions] = useState(false);
@@ -64,7 +76,7 @@ const WatchItem = ({ details, index }) => {
           {details.price}
         </span>
       </div>
-      {showActions && <Actions index={index} />}
+      {showActions && <Actions details={details} />}
     </li>
   );
 };
