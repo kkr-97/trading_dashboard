@@ -3,23 +3,17 @@ import StockContext from "../Contexts/StockContext";
 
 import axios from "axios";
 
-const BuyWindow = ({ stockDetails }) => {
+const SellWindow = ({ stockDetails }) => {
   const [qty, setQty] = useState(1);
 
-  const { closeBuyWindow } = useContext(StockContext);
-
   const { details } = stockDetails;
-  const { name, price, percent } = details;
+  const { name, price } = details;
 
-  const onClickBuyStock = async () => {
-    await axios.post("http://localhost:3002/buyStock", {
-      name: name,
-      price: price,
-      qty: qty,
-      net: percent,
-    });
+  const { closeSellWindow } = useContext(StockContext);
 
-    closeBuyWindow();
+  const onClickSellStock = async () => {
+    await axios.post("http://localhost:3002/sellStock", { name, qty, price });
+    closeSellWindow();
   };
 
   return (
@@ -33,7 +27,7 @@ const BuyWindow = ({ stockDetails }) => {
         zIndex: "10",
       }}
     >
-      <header className="buyWindow bg-primary px-3 py-1">
+      <header className="buyWindow bg-danger px-3 py-1">
         <h4 className="stockName text-white">{name}</h4>
         <p className="text-white">INR {price}/-</p>
       </header>
@@ -47,10 +41,14 @@ const BuyWindow = ({ stockDetails }) => {
         />
       </div>
       <div className="btns-container">
-        <button className="btn btn-blue" onClick={onClickBuyStock}>
-          Buy
+        <button
+          className="btn btn-blue"
+          onClick={onClickSellStock}
+          type="button"
+        >
+          Sell
         </button>
-        <button className="btn border-none" onClick={closeBuyWindow}>
+        <button className="btn border-none" onClick={closeSellWindow}>
           close
         </button>
       </div>
@@ -58,4 +56,4 @@ const BuyWindow = ({ stockDetails }) => {
   );
 };
 
-export default BuyWindow;
+export default SellWindow;

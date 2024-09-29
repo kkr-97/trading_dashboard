@@ -1,14 +1,23 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import Cookie from "js-cookie";
 // import { positions } from "../data/data";
 
 const Positions = () => {
   const [positions, setPositions] = useState([]);
 
+  const token = Cookie.get("trading_token");
+
   useEffect(() => {
-    axios.get("http://localhost:3002/positions").then((res) => {
-      setPositions(res.data);
-    });
+    axios
+      .get("http://localhost:3002/positions", {
+        headers: {
+          "x-auth-token": token,
+        },
+      })
+      .then((res) => {
+        setPositions(res.data);
+      });
   }, []);
 
   const newPositions = positions.map((item) => {
@@ -21,7 +30,7 @@ const Positions = () => {
   });
   return (
     <>
-      <h3 className="title">Positions (positions.length)</h3>
+      <h3 className="title">Positions ({positions.length})</h3>
 
       <div className="order-table">
         <table>
@@ -38,7 +47,6 @@ const Positions = () => {
           </thead>
           <tbody>
             {newPositions.map((position, index) => {
-              console.log(position.pnl);
               return (
                 <tr key={index}>
                   <td>{position.product}</td>

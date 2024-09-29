@@ -1,12 +1,20 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import Cookie from "js-cookie";
 
 const Menu = () => {
   const [selectedItem, setMenuItem] = useState(1);
   const [isDropDownOpen, setDropDown] = useState(false);
 
+  const navigate = useNavigate();
+
   const handleDropDown = () => {
     setDropDown(!isDropDownOpen);
+  };
+
+  const onLogout = () => {
+    Cookie.remove("trading_token");
+    navigate("/sign-in");
   };
 
   const menuItems = [
@@ -45,11 +53,23 @@ const Menu = () => {
           })}
         </ul>
         <hr />
-        <div className="profile" onClick={handleDropDown}>
-          <div className="avatar">ZU</div>
-          <p className="username">USERID</p>
-          <ul className={isDropDownOpen ? "" : "hide"}>
-            <li>Logout</li>{" "}
+        <div className="profile">
+          <div className="d-flex align-items-center" onClick={handleDropDown}>
+            <div className="avatar">KKR</div>
+            <p className="username mb-0">
+              Keerthan{" "}
+              <i
+                className={
+                  "fa-solid " +
+                  (isDropDownOpen ? "fa-chevron-up" : "fa-chevron-down")
+                }
+              ></i>
+            </p>
+          </div>
+          <ul className={"dropdown " + (isDropDownOpen ? "" : "d-none")}>
+            <li className="m-0" onClick={onLogout}>
+              Logout
+            </li>{" "}
           </ul>
         </div>
       </div>

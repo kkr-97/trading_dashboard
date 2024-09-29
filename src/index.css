@@ -11,6 +11,11 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+/* Signup Component Styling */
+
+.signup-container{
+  height: 85vh;
+}
 
 .dashboard-container {
   width: 100%;
@@ -300,6 +305,7 @@ hr {
   align-items: center;
   justify-content: space-evenly;
   margin-left: 20px;
+  position: relative;
 }
 
 .profile .avatar {
@@ -842,5 +848,21 @@ hr {
   background-color: rgb(212, 212, 212);
 }
 
+.refresh-btn{
+  background-color: #d1d1d1;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #d1d1d1;
+  border-radius: 5px;
+  padding: 5px;
+  cursor: pointer;
+  margin: 0 0 10px 7px;
+}
 
-
+.dropdown{
+  position: absolute;
+  top: 32px;
+  background-color: #f3f3f3;
+  border-radius: 5px;
+  padding: 6px 14px;
+}

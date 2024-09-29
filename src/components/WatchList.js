@@ -13,10 +13,14 @@ import {
 } from "@mui/icons-material";
 
 const Actions = (details) => {
-  const { openBuyWindowOpen } = useContext(StockContext);
+  const { openBuyWindowOpen, openSellWindow } = useContext(StockContext);
 
   const handleBuy = () => {
     openBuyWindowOpen(details);
+  };
+
+  const handleSell = () => {
+    openSellWindow(details);
   };
 
   return (
@@ -28,7 +32,9 @@ const Actions = (details) => {
           </button>
         </Tooltip>
         <Tooltip title="Sell" placement="top" arrow TransitionComponent={Grow}>
-          <button className="sell">Sell</button>
+          <button className="sell" onClick={handleSell}>
+            Sell
+          </button>
         </Tooltip>
         <Tooltip
           title="Analytics"
@@ -56,12 +62,12 @@ const WatchItem = ({ details, index }) => {
   return (
     <li
       onMouseEnter={() => setShowActions(true)}
-      onMouseExit={() => setShowActions(false)}
+      onMouseLeave={() => setShowActions(false)}
       className="item"
     >
       <p className={details.isDown ? "down" : "up"}>{details.name}</p>
       <div className="itemInfo">
-        <span className={"percent " + details.isDown ? "down" : "up"}>
+        <span className={"percent " + (details.isDown ? "down" : "up")}>
           {details.percent}{" "}
           {details.isDown ? (
             <KeyboardArrowDown className="down" />
@@ -71,7 +77,7 @@ const WatchItem = ({ details, index }) => {
         </span>
         <span
           style={{ marginLeft: "16px" }}
-          className={"price " + details.isDown ? "down" : "up"}
+          className={"price " + (details.isDown ? "down" : "up")}
         >
           {details.price}
         </span>

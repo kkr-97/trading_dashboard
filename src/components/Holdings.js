@@ -1,19 +1,10 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React from "react";
 
 // import { holdings } from "../data/data";
 
-const Holdings = () => {
-  const [holdings, setHoldings] = useState([]);
-
-  useEffect(() => {
-    axios.get("http://localhost:3002/holdings").then((res) => {
-      setHoldings(res.data);
-    });
-  }, []);
-
+const Holdings = ({ holdings, fetchHoldings }) => {
   const newHoldings = holdings.map((item) => {
-    const curVal = item.price * item.qty;
+    const curVal = (item.price * item.qty).toFixed(2);
     const isProfit = item.price - item.avg >= 0;
     const profitClass = isProfit ? "profit" : "loss";
     const pnl = ((item.price - item.avg) * item.qty).toFixed(2);
@@ -26,14 +17,18 @@ const Holdings = () => {
       pnl,
       profitClass,
       isDayProfitClass,
-      isDayProfitClass,
       isNetProfit,
     };
   });
 
   return (
     <>
-      <h3 className="title">Holdings {holdings.length}</h3>
+      <div className="d-flex align-items-center">
+        <h3 className="title">Holdings {holdings.length}</h3>
+        <button className="refresh-btn" onClick={fetchHoldings}>
+          <i className="fa-solid fa-arrows-rotate"></i>
+        </button>
+      </div>
 
       <div className="order-table">
         <table>
