@@ -1,6 +1,6 @@
 import React from "react";
 
-// import { holdings } from "../data/data";
+import { BarChart } from "@mui/x-charts/BarChart";
 
 const Holdings = ({ holdings, fetchHoldings }) => {
   const newHoldings = holdings.map((item) => {
@@ -20,6 +20,19 @@ const Holdings = ({ holdings, fetchHoldings }) => {
       isNetProfit,
     };
   });
+
+  const GraphicalRepresentation = () => {
+    const uData = newHoldings.map((item) => item.price);
+    const xLabels = newHoldings.map((item) => item.name);
+
+    return (
+      <BarChart
+        height={400}
+        series={[{ data: uData, id: "pvId" }]}
+        xAxis={[{ data: xLabels, scaleType: "band" }]}
+      />
+    );
+  };
 
   return (
     <>
@@ -62,6 +75,8 @@ const Holdings = ({ holdings, fetchHoldings }) => {
           </tbody>
         </table>
       </div>
+
+      <GraphicalRepresentation className="w-100" />
 
       <div className="row">
         <div className="col">

@@ -1,5 +1,6 @@
 import React, { useContext, useState } from "react";
 import StockContext from "../Contexts/StockContext";
+import Cookie from "js-cookie";
 
 import axios from "axios";
 
@@ -12,12 +13,23 @@ const BuyWindow = ({ stockDetails }) => {
   const { name, price, percent } = details;
 
   const onClickBuyStock = async () => {
-    await axios.post("http://localhost:3002/buyStock", {
-      name: name,
-      price: price,
-      qty: qty,
-      net: percent,
-    });
+    await axios
+      .post(
+        "http://localhost:3002/buyStock",
+        {
+          name: name,
+          price: price,
+          qty: qty,
+          net: percent,
+        },
+        {
+          headers: {
+            "x-auth-token": Cookie.get("trading_token"),
+          },
+        }
+      )
+      .then((res) => alert(res.data.message))
+      .catch((e) => alert(e.response.data.target));
 
     closeBuyWindow();
   };
@@ -32,6 +44,7 @@ const BuyWindow = ({ stockDetails }) => {
         width: "320px",
         zIndex: "10",
       }}
+      onSubmit={(e) => e.preventDefault()}
     >
       <header className="buyWindow bg-primary px-3 py-1">
         <h4 className="stockName text-white">{name}</h4>

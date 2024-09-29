@@ -57,7 +57,7 @@ const Menu = () => {
           <div className="d-flex align-items-center" onClick={handleDropDown}>
             <div className="avatar">KKR</div>
             <p className="username mb-0">
-              Keerthan{" "}
+              Hello{" "}
               <i
                 className={
                   "fa-solid " +
