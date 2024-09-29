@@ -34,10 +34,13 @@ function SignupLogin() {
     e.preventDefault();
 
     try {
-      let response = await axios.post("http://localhost:3002/login", {
-        email,
-        password,
-      });
+      let response = await axios.post(
+        "https://trading-backend-hvvh.onrender.com/login",
+        {
+          email,
+          password,
+        }
+      );
       const token = response.data.token;
       Cookie.set("trading_token", token);
       navigate("/");
@@ -48,11 +51,14 @@ function SignupLogin() {
   const handleSignUp = async (e) => {
     e.preventDefault();
     try {
-      let response = await axios.post("http://localhost:3002/register", {
-        email,
-        username,
-        password,
-      });
+      let response = await axios.post(
+        "https://trading-backend-hvvh.onrender.com/register",
+        {
+          email,
+          username,
+          password,
+        }
+      );
       const token = response.data.token;
       Cookie.set("trading_token", token);
       navigate("/");

@@ -10,7 +10,7 @@ const Positions = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3002/positions", {
+      .get("https://trading-backend-hvvh.onrender.com", {
         headers: {
           "x-auth-token": token,
         },

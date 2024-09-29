@@ -15,7 +15,7 @@ const BuyWindow = ({ stockDetails }) => {
   const onClickBuyStock = async () => {
     await axios
       .post(
-        "http://localhost:3002/buyStock",
+        "https://trading-backend-hvvh.onrender.com/buyStock",
         {
           name: name,
           price: price,

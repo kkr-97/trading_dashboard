@@ -26,7 +26,7 @@ const Dashboard = () => {
   const [holdings, setHoldings] = useState([]);
   const [orders, setOrders] = useState([]);
 
-  const api = "http://localhost:3002";
+  const api = "https://trading-backend-hvvh.onrender.com";
   const token = Cookie.get("trading_token");
 
   const fetchHoldings = async () => {

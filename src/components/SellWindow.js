@@ -15,7 +15,7 @@ const SellWindow = ({ stockDetails }) => {
   const onClickSellStock = async () => {
     await axios
       .post(
-        "http://localhost:3002/sellStock",
+        "https://trading-backend-hvvh.onrender.com/sellStock",
         { name, qty, price },
         {
           headers: {
